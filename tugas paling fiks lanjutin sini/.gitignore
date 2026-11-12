@@ -1,0 +1,42 @@
+
+# ===================================
+# JAJAN.IN — BACKEND GITIGNORE
+# ===================================
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Generated files
+dist/
+coverage/
+drizzle/
+src/docs/swagger-output.json
+
+# Database backup and local data
+*.bak
+*.mdf
+*.ldf
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+npm-debug.log*
+
+# Editor and OS files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Personal folders
+/submit tugas/
+/tugas 3/
+
+.db/
