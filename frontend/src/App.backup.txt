@@ -1,0 +1,592 @@
+
+import StallListPage from './pages/StallListPage';
+import { useStalls } from './hooks/useStalls';
+
+import StallFormPage from './pages/StallFormPage';
+import type { StallFormValues } from './pages/StallFormPage';
+
+import StallDetailPage from './pages/StallDetailPage';
+import ProfilePage from './pages/ProfilePage';
+
+import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/LoginPage';
+
+
+import Footer from './components/Footer';
+
+import type { Stall } from './api/stallApi';
+
+import Navbar from './components/Navbar';
+
+import { useAuth } from './hooks/useAuth';
+import { api } from './api/client';
+
+import Toast from './components/Toast';
+import type { ToastData, ToastType } from './components/Toast';
+
+import { useEffect, useState } from 'react';
+import type { FormEvent } from 'react';
+
+import axios from 'axios';
+import './App.css';
+
+
+// ==========================================
+// TIPE DATA SESUAI BACKEND
+// ==========================================
+
+type Page = 'list' | 'detail' | 'form' | 'login' | 'register' | 'profile';
+
+
+interface ApiResponse<T> {
+  status: string;
+  message?: string;
+  data: T;
+  meta?: {
+    page: number;
+    limit: number;
+    total: number;
+  };
+}
+
+// ==========================================
+// KONFIGURASI AXIOS & JWT
+// ==========================================
+
+
+function getErrorMessage(error: unknown): string {
+  if (axios.isAxiosError(error)) {
+    const status = error.response?.status;
+    const body = error.response?.data as
+      | {
+          message?: string;
+          errors?: Array<{
+            field?: string;
+            message?: string;
+          }>;
+        }
+      | undefined;
+
+    if (body?.errors?.length) {
+      return body.errors
+        .map((item) =>
+          `${item.field || 'Input'}: ${item.message || 'Tidak valid'}`
+        )
+        .join('; ');
+    }
+
+    if (status === 401) {
+      return body?.message ?? 'Sesi tidak valid. Silakan login.';
+    }
+
+    if (status === 403) {
+      return body?.message ?? 'Kamu tidak memiliki izin.';
+    }
+
+    if (status === 404) {
+      return body?.message ?? 'Data tidak ditemukan.';
+    }
+
+    if (status === 409) {
+      return body?.message ?? 'Data sudah terdaftar.';
+    }
+
+    if (body?.message) return body.message;
+
+    if (!error.response) {
+      return 'Tidak dapat menghubungi backend. Pastikan server Express berjalan.';
+    }
+
+    return `Request gagal (HTTP ${status}).`;
+  }
+
+  return 'Terjadi kesalahan yang tidak diketahui.';
+}
+
+const initialForm: StallFormValues = {
+  name: '',
+  category: '',
+  location: '',
+  description: '',
+};
+
+
+
+
+export default function App() {
+  const [page, setPage] = useState<Page>('list');
+
+  const {
+    user,
+    checkingAuth,
+    login,
+    register,
+    logout: logoutAuth,
+  } = useAuth();
+
+  // Autentikasi
+  const [toast, setToast] = useState<ToastData | null>(null);
+
+  function notify(type: ToastType, message: string) {
+    setToast({
+      id: Date.now(),
+      type,
+      message,
+    });
+  }
+
+  const [authName, setAuthName] = useState('');
+  const [authEmail, setAuthEmail] = useState('');
+  const [authPassword, setAuthPassword] = useState('');
+
+  // Data warung
+  const [selectedStall, setSelectedStall] = useState<Stall | null>(null);
+  const [reloadKey, setReloadKey] = useState(0);
+  
+  const {
+    stalls,
+    searchInput,
+    setSearchInput,
+    category,
+    setCategory,
+    pageNumber,
+    setPageNumber,
+    total,
+    totalPages,
+    loading,
+    listError,
+    resetFilters,
+  } = useStalls(page === 'list', reloadKey);
+
+
+  // Form CRUD
+  const [stallForm, setStallForm] =
+  useState<StallFormValues>(initialForm);
+  const [editingId, setEditingId] = useState<number | null>(null);
+
+  // Status UI
+
+  const [detailLoading, setDetailLoading] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState('');
+  const [notice, setNotice] = useState('');
+
+  const isAdmin = user?.role === 'admin';
+  const isOwner = user?.role === 'owner';
+  const canManage = isAdmin || isOwner;
+
+  function canEdit(stall: Stall) {
+    return Boolean(
+      isAdmin || (isOwner && user?.id === stall.ownerId)
+    );
+  }
+
+  function navigate(target: Page) {
+    setError('');
+    setNotice('');
+    setPage(target);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  
+
+  // ==========================================
+  // GET DETAIL WARUNG
+  // ==========================================
+
+
+  async function openDetail(id: number) {
+    setDetailLoading(true);
+    setError('');
+
+    try {
+      const response = await api.get<ApiResponse<Stall>>(
+        `/stalls/${id}`
+      );
+
+      setSelectedStall(response.data.data);
+      navigate('detail');
+    } catch (err) {
+      setError(getErrorMessage(err));
+    } finally {
+      setDetailLoading(false);
+    }
+  }
+
+  
+  // ==========================================
+  // LOGIN
+  // ==========================================
+
+  
+  async function handleLogin(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (saving) return;
+
+    setSaving(true);
+    setError('');
+
+    try {
+      const loggedInUser = await login({
+        email: authEmail.trim(),
+        password: authPassword,
+      });
+
+      setAuthPassword('');
+      navigate('list');
+      setNotice(`Selamat datang, ${loggedInUser.name}!`);
+    } catch (err) {
+      setError(
+        err instanceof Error && !axios.isAxiosError(err)
+          ? err.message
+          : getErrorMessage(err)
+      );
+    } finally {
+      setSaving(false);
+    }
+  }
+
+
+  // ==========================================
+  // REGISTRASI
+  // ==========================================
+
+
+  async function handleRegister(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (saving) return;
+
+    setSaving(true);
+    setError('');
+
+    try {
+      await register({
+        name: authName.trim(),
+        email: authEmail.trim(),
+        password: authPassword,
+      });
+
+      setAuthPassword('');
+      navigate('login');
+      setNotice('Registrasi berhasil! Silakan login.');
+    } catch (err) {
+      setError(getErrorMessage(err));
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  
+  // ==========================================
+  // LOGOUT
+  // ==========================================
+
+  
+  function logout() {
+    logoutAuth();
+
+    setAuthEmail('');
+    setAuthPassword('');
+    setSelectedStall(null);
+
+    navigate('list');
+    setNotice('Kamu telah logout.');
+  }
+
+
+  // ==========================================
+  // FORM TAMBAH WARUNG
+  // ==========================================
+
+  function openCreateForm() {
+    if (!canManage) return;
+
+    setEditingId(null);
+    setStallForm({ ...initialForm });
+    navigate('form');
+  }
+
+  // ==========================================
+  // FORM EDIT WARUNG
+  // ==========================================
+
+  function openEditForm(stall: Stall) {
+    if (!canEdit(stall)) return;
+
+    setEditingId(stall.id);
+
+    setStallForm({
+      name: stall.name,
+      category: stall.category ?? '',
+      location: stall.location ?? '',
+      description: stall.description ?? '',
+    });
+
+    navigate('form');
+  }
+
+  // ==========================================
+  // CREATE / UPDATE
+  // ==========================================
+
+  async function saveStall(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!canManage || saving) return;
+
+    setSaving(true);
+    setError('');
+
+    try {
+      const payload = {
+        name: stallForm.name.trim(),
+        category: stallForm.category.trim(),
+        location: stallForm.location.trim(),
+        description: stallForm.description.trim(),
+      };
+
+      if (payload.name.length < 3) {
+        setError('Nama warung minimal 3 karakter.');
+        return;
+      }
+
+      if (editingId === null) {
+        await api.post('/stalls', payload);
+      } else {
+        await api.put(`/stalls/${editingId}`, payload);
+      }
+
+      const successMessage =
+        editingId === null
+          ? 'Warung berhasil ditambahkan!'
+          : 'Data warung berhasil diperbarui!';
+
+      setPageNumber(1);
+      setReloadKey((key) => key + 1);
+
+      navigate('list');
+      setNotice(successMessage);
+    } catch (err) {
+      setError(getErrorMessage(err));
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  // ==========================================
+  // DELETE - ADMIN ONLY
+  // ==========================================
+
+  async function deleteStall(stall: Stall) {
+    if (!isAdmin || saving) return;
+
+    const confirmed = window.confirm(
+      `Yakin ingin menghapus warung "${stall.name}"?\nTindakan ini tidak dapat dibatalkan.`
+    );
+
+    if (!confirmed) return;
+
+    setSaving(true);
+    setError('');
+
+    try {
+      await api.delete(`/stalls/${stall.id}`);
+
+      setSelectedStall(null);
+      setPageNumber(1);
+      setReloadKey((key) => key + 1);
+
+      navigate('list');
+      setNotice('Warung berhasil dihapus!');
+    } catch (err) {
+      setError(getErrorMessage(err));
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  // ==========================================
+  // UPDATE STATE FORM
+  // ==========================================
+
+  function updateForm(field: keyof StallFormValues, value: string) {
+    setStallForm((previous) => ({
+      ...previous,
+      [field]: value,
+    }));
+  }
+
+
+  // ==========================================
+  // NOTIFIKASI SUKSES DAN ERROR
+  // ==========================================
+
+  useEffect(() => {
+    if (!notice) return;
+
+    notify('success', notice);
+  }, [notice]);
+
+  useEffect(() => {
+    if (!error) return;
+
+    notify('error', error);
+  }, [error]);
+
+
+  // ==========================================
+  // ANTARMUKA WEBSITE
+  // ==========================================
+
+  return (
+    <div className="app">
+
+      {/* NOTIFIKASI TOAST */}
+      <Toast
+        toast={toast}
+        onClose={() => setToast(null)}
+      />
+
+      {/* NAVBAR */}
+      <Navbar
+        user={user}
+        checkingAuth={checkingAuth}
+        onHome={() => navigate('list')}
+        onCreateStall={openCreateForm}
+        onProfile={() => navigate('profile')}
+        onLogin={() => navigate('login')}
+        onRegister={() => navigate('register')}
+        onLogout={logout}
+      />
+
+      <main className="container">
+       
+        {/* ==================================
+            HALAMAN DAFTAR WARUNG
+        ================================== */}
+
+
+        {page === 'list' && (
+          <StallListPage
+            stalls={stalls}
+            searchInput={searchInput}
+            category={category}
+            loading={loading}
+            listError={listError}
+            total={total}
+            pageNumber={pageNumber}
+            totalPages={totalPages}
+            isAdmin={isAdmin}
+            saving={saving || detailLoading}
+            canEdit={canEdit}
+            onSearchChange={(value) => {
+              setSearchInput(value);
+              setPageNumber(1);
+            }}
+            onCategoryChange={(value) => {
+              setCategory(value);
+              setPageNumber(1);
+            }}
+            onPageChange={setPageNumber}
+            onResetFilters={resetFilters}
+            onRetry={() => setReloadKey((key) => key + 1)}
+            onDetail={(id) => void openDetail(id)}
+            onEdit={openEditForm}
+            onDelete={(stall) => void deleteStall(stall)}
+          />
+        )}
+
+        
+        {/* ==================================
+            DETAIL WARUNG
+        ================================== */}
+
+        
+        {page === 'detail' && selectedStall && (
+          <StallDetailPage
+            stall={selectedStall}
+            canEdit={canEdit(selectedStall)}
+            isAdmin={isAdmin}
+            saving={saving}
+            onBack={() => navigate('list')}
+            onEdit={openEditForm}
+            onDelete={(stall) => void deleteStall(stall)}
+          />
+        )}
+
+
+        {/* ==================================
+            TAMBAH / EDIT WARUNG
+        ================================== */}
+
+
+        {page === 'form' && canManage && (
+          <StallFormPage
+            form={stallForm}
+            editingId={editingId}
+            saving={saving}
+            onFieldChange={updateForm}
+            onSubmit={(event) => void saveStall(event)}
+            onCancel={() => navigate('list')}
+          />
+        )}
+
+        
+        {/* ==================================
+            LOGIN
+        ================================== */}
+
+        
+        {page === 'login' && !user && (
+          <LoginPage
+            email={authEmail}
+            password={authPassword}
+            saving={saving}
+            onEmailChange={setAuthEmail}
+            onPasswordChange={setAuthPassword}
+            onSubmit={(event) => void handleLogin(event)}
+            onRegister={() => navigate('register')}
+          />
+        )}
+
+
+        {/* ==================================
+            REGISTER
+        ================================== */}
+
+
+        {page === 'register' && !user && (
+          <RegisterPage
+            name={authName}
+            email={authEmail}
+            password={authPassword}
+            saving={saving}
+            onNameChange={setAuthName}
+            onEmailChange={setAuthEmail}
+            onPasswordChange={setAuthPassword}
+            onSubmit={(event) => void handleRegister(event)}
+            onLogin={() => navigate('login')}
+          />
+        )}
+
+        
+        {/* ==================================
+            PROFIL USER - GET /AUTH/ME
+        ================================== */}
+
+        
+        {page === 'profile' && user && (
+          <ProfilePage
+            user={user}
+            onHome={() => navigate('list')}
+            onCreateStall={openCreateForm}
+          />
+        )}
+
+      </main>
+
+      <Footer />
+
+
+    </div>
+  );
+}

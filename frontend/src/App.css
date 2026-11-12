@@ -1,0 +1,1548 @@
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=DM+Serif+Display:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+/* =========================================
+   KANTINREVIEW
+   MUTED RETRO GEN Z - DESIGN SYSTEM
+========================================= */
+
+:root {
+  font-family: 'DM Sans', sans-serif;
+  color: #5b4034;
+  background: #f7f1e8;
+  font-synthesis: none;
+
+  --cream: #f7f1e8;
+  --paper: #fffcf6;
+  --sage: #c9d8c1;
+  --sage-dark: #657e66;
+  --rose: #d9a5a5;
+  --peach: #e7c3a7;
+  --butter: #ead9a0;
+  --cocoa: #5b4034;
+  --charcoal: #37312d;
+  --muted: #8b8076;
+  --border: #dfd4c8;
+
+  --shadow: 4px 5px 0 #5b403416;
+  --round: 20px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--cream);
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button {
+  border: 1.5px solid var(--cocoa);
+  border-radius: 30px;
+  padding: 11px 19px;
+  background: var(--paper);
+  color: var(--cocoa);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    box-shadow .2s ease;
+}
+
+button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  background: var(--sage);
+  box-shadow: 3px 4px 0 #5b40342a;
+}
+
+button:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: var(--cocoa);
+  border-color: var(--cocoa);
+  color: #fffaf4;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: #765446;
+  color: white;
+}
+
+.btn-danger {
+  background: #f9e8e6;
+  border-color: #b77c7c;
+  color: #985d5d;
+}
+
+/* =========================================
+   NAVBAR
+========================================= */
+
+.navbar {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  padding: 20px max(25px, calc((100vw - 1200px) / 2));
+  background: var(--paper);
+  border-bottom: 1.5px solid var(--border);
+}
+
+.brand {
+  position: relative;
+  font-family: 'DM Serif Display', serif;
+  font-style: italic;
+  font-size: 29px;
+  font-weight: 400;
+  letter-spacing: -1px;
+  padding: 3px 10px;
+  border: none;
+  background: transparent;
+  color: var(--cocoa);
+}
+
+.brand::after {
+  content: '';
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  bottom: 0;
+  height: 7px;
+  background: var(--rose);
+  opacity: .6;
+  border-radius: 50%;
+  transform: rotate(-3deg);
+  z-index: -1;
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.nav-actions > button {
+  font-size: 12px;
+  padding: 10px 16px;
+}
+
+.user-badge {
+  padding: 10px 16px;
+  background: #e6ebdf;
+  border: 1px solid #cbd8c5;
+  border-radius: 30px;
+  color: var(--cocoa);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.container {
+  max-width: 1200px;
+  margin: auto;
+  min-height: 75vh;
+  padding: 35px 24px 75px;
+}
+
+/* =========================================
+   HERO - RETRO EDITORIAL
+========================================= */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+
+  min-height: 385px;
+  padding: 76px 55px;
+  margin-bottom: 55px;
+
+  border: 1.5px solid #d9c7b6;
+  border-radius: 28px;
+
+  background:
+    radial-gradient(
+      circle at 82% 40%,
+      #dce7d4 0 17%,
+      transparent 17.2%
+    ),
+    radial-gradient(
+      circle at 94% 87%,
+      #f0d5cf 0 15%,
+      transparent 15.2%
+    ),
+    linear-gradient(120deg, #fff9ef, #f5e8d9);
+}
+
+/* Tiny decorative paper texture */
+
+.hero::before {
+  content: '✳  GOOD FOOD CLUB  ✳';
+  position: absolute;
+  top: 32px;
+  left: 55px;
+
+  color: #9b7c70;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+/* Retro decorative food sticker */
+
+.hero::after {
+  content: '🍜';
+  position: absolute;
+  z-index: -1;
+  right: 7%;
+  top: 21%;
+
+  display: grid;
+  place-items: center;
+
+  width: 230px;
+  height: 230px;
+  border: 12px solid #fffaf2;
+  border-radius: 23px;
+
+  background: var(--sage);
+  box-shadow:
+    7px 9px 0 #5b403426,
+    0 0 0 1.5px var(--cocoa);
+
+  font-size: 110px;
+  transform: rotate(9deg);
+  transition: transform .3s ease;
+}
+
+.hero:hover::after {
+  transform: rotate(4deg) scale(1.04);
+}
+
+.hero h1 {
+  position: relative;
+  z-index: 2;
+  max-width: 650px;
+  margin: 0 0 22px;
+
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(44px, 6vw, 78px);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -2.5px;
+  color: var(--cocoa);
+
+  text-shadow: 3px 3px 0 #e4bdb1;
+}
+
+.hero p {
+  position: relative;
+  z-index: 2;
+  max-width: 380px;
+  margin: 0;
+
+  color: #726358;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* =========================================
+   SEARCH AND FILTER
+========================================= */
+
+.filters {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1.7fr 1fr;
+  gap: 15px;
+  margin-bottom: 32px;
+}
+
+.filters::before {
+  content: 'EXPLORE THE CANTEEN ✳';
+  grid-column: 1 / -1;
+  margin-bottom: 4px;
+
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px;
+  letter-spacing: 2px;
+  font-weight: 700;
+  color: var(--cocoa);
+}
+
+input,
+textarea {
+  width: 100%;
+  padding: 15px 18px;
+
+  background: var(--paper);
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+
+  color: var(--cocoa);
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #a79c91;
+}
+
+input:focus,
+textarea:focus {
+  border-color: var(--sage-dark);
+  box-shadow: 0 0 0 4px #c9d8c17d;
+}
+
+.filters input {
+  border-radius: 30px;
+  box-shadow: 3px 4px 0 #5b40340c;
+}
+
+/* =========================================
+   FOOD CARDS - SCRAPBOOK STYLE
+========================================= */
+
+.stall-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 25px;
+}
+
+.stall-card {
+  position: relative;
+  overflow: hidden;
+
+  border: 1.5px solid #d8cbbf;
+  border-radius: 19px;
+  background: var(--paper);
+  box-shadow: var(--shadow);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.stall-card:hover {
+  transform: translateY(-7px) rotate(-.4deg);
+  box-shadow: 7px 11px 0 #5b403421;
+}
+
+.card-image {
+  position: relative;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+
+  height: 215px;
+  background: #efd5c5;
+
+  font-size: 90px;
+  line-height: 1;
+  border-bottom: 1.5px solid #d8cbbf;
+  text-shadow: 4px 8px 12px #5b403422;
+}
+
+.stall-card:nth-child(3n + 2) .card-image {
+  background: #dce7d4;
+}
+
+.stall-card:nth-child(3n + 3) .card-image {
+  background: #eee1b9;
+}
+
+/* Retro decoration */
+
+.card-image::before {
+  content: '✦ FRESH PICKS ✦';
+  position: absolute;
+  top: 13px;
+  left: 13px;
+
+  padding: 7px 10px;
+  border: 1px solid #5b40344d;
+  border-radius: 30px;
+
+  background: #fffaf1e8;
+  color: var(--cocoa);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-shadow: none;
+
+  transform: rotate(-5deg);
+}
+
+.card-image::after {
+  content: '✳';
+  position: absolute;
+  right: 15px;
+  bottom: 5px;
+  color: #fffaf1;
+  font-size: 55px;
+  text-shadow: 2px 3px 0 #5b403440;
+}
+
+.card-body {
+  padding: 22px 20px 24px;
+}
+
+.category {
+  display: inline-flex;
+  align-items: center;
+
+  padding: 7px 12px;
+  border-radius: 30px;
+  border: 1px solid #d2c59c;
+
+  background: #f4e8c7;
+  color: #755d3f;
+
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  text-transform: uppercase;
+}
+
+.stall-card:nth-child(3n + 2) .category {
+  background: #e2ecda;
+  border-color: #c6d6bd;
+  color: #607961;
+}
+
+.stall-card:nth-child(3n + 3) .category {
+  background: #f6e0df;
+  border-color: #e6c6c6;
+  color: #946666;
+}
+
+.card-body h2 {
+  margin: 15px 0 9px;
+
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -.8px;
+  color: var(--cocoa);
+}
+
+.card-body p {
+  margin: 8px 0;
+  color: #82766a;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.description {
+  min-height: 42px;
+  overflow-wrap: anywhere;
+}
+
+.card-body .rating {
+  color: var(--cocoa);
+  font-weight: 700;
+}
+
+.card-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 22px;
+}
+
+.card-actions button {
+  font-size: 11px;
+  padding: 10px 14px;
+}
+
+/* =========================================
+   DETAIL PAGE
+========================================= */
+
+.panel {
+  position: relative;
+  max-width: 760px;
+  margin: 35px auto;
+  padding: 38px;
+
+  background: var(--paper);
+  border: 1.5px solid #d8cbbf;
+  border-radius: 23px;
+  box-shadow: 7px 8px 0 #5b403414;
+}
+
+.panel::before {
+  content: '✳';
+  position: absolute;
+  top: 15px;
+  right: 22px;
+
+  font-size: 30px;
+  color: var(--rose);
+}
+
+.panel h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 400;
+  line-height: 1.1;
+  color: var(--cocoa);
+}
+
+.panel p {
+  color: #7d7064;
+  line-height: 1.7;
+}
+
+.panel > button {
+  margin: 5px 8px 5px 0;
+}
+
+/* =========================================
+   FORMS - LOGIN, REGISTER, CRUD
+========================================= */
+
+.form-panel {
+  max-width: 540px;
+  background:
+    radial-gradient(
+      circle at 100% 0%,
+      #e8ede0 0 65px,
+      transparent 66px
+    ),
+    var(--paper);
+}
+
+.form-panel h1 {
+  margin-bottom: 12px;
+}
+
+.form-panel form {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
+  margin-top: 22px;
+}
+
+.form-panel label {
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .4px;
+}
+
+.form-panel input,
+.form-panel textarea {
+  background: #fffefa;
+}
+
+.form-panel form button {
+  margin-top: 18px;
+  padding: 15px;
+}
+
+.form-panel > p {
+  font-size: 13px;
+}
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+
+  gap: 18px;
+  margin: 40px 0 10px;
+}
+
+.pagination span {
+  color: var(--cocoa);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* =========================================
+   MESSAGES
+========================================= */
+
+.alert {
+  padding: 17px 21px;
+  margin-bottom: 23px;
+  border: 1.5px solid;
+  border-radius: 15px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.alert.success {
+  background: #e5eddf;
+  border-color: #b5c9aa;
+  color: #4c6b4f;
+}
+
+.alert.error {
+  background: #fae7e4;
+  border-color: #e6b6b3;
+  color: #985354;
+}
+
+.empty {
+  padding: 75px 25px;
+  text-align: center;
+
+  background: var(--paper);
+  border: 2px dashed #d4c5b6;
+  border-radius: 22px;
+
+  color: #887a6d;
+  font-size: 14px;
+}
+
+.empty::before {
+  content: '✳';
+  display: block;
+  margin-bottom: 10px;
+  font-size: 35px;
+  color: var(--rose);
+}
+
+/* =========================================
+   FOOTER - RETRO CHECKERBOARD
+========================================= */
+
+footer {
+  position: relative;
+  margin-top: 45px;
+  padding: 53px 20px 35px;
+
+  background: #e8e2d7;
+  border-top: 1.5px solid #d8cbbf;
+
+  color: var(--cocoa);
+  font-size: 12px;
+  font-weight: 700;
+  text-align: center;
+  letter-spacing: .5px;
+}
+
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 17px;
+
+  background-color: #f7f1e8;
+  background-image:
+    linear-gradient(45deg, #aebfa7 25%, transparent 25%),
+    linear-gradient(-45deg, #aebfa7 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, #aebfa7 75%),
+    linear-gradient(-45deg, transparent 75%, #aebfa7 75%);
+
+  background-size: 22px 22px;
+  background-position:
+    0 0,
+    0 11px,
+    11px -11px,
+    -11px 0;
+}
+
+/* =========================================
+   RESPONSIVE TABLET
+========================================= */
+
+@media (max-width: 960px) {
+  .stall-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .hero {
+    min-height: 340px;
+    padding: 70px 36px;
+  }
+
+  .hero::before {
+    left: 36px;
+  }
+
+  .hero::after {
+    right: 4%;
+    width: 175px;
+    height: 175px;
+    font-size: 85px;
+  }
+
+  .hero h1 {
+    max-width: 480px;
+  }
+}
+
+/* =========================================
+   RESPONSIVE MOBILE
+========================================= */
+
+@media (max-width: 640px) {
+  .navbar {
+    padding: 17px 20px;
+  }
+
+  .brand {
+    font-size: 25px;
+  }
+
+  .nav-actions {
+    width: 100%;
+    gap: 7px;
+  }
+
+  .nav-actions > button {
+    padding: 9px 13px;
+    font-size: 11px;
+  }
+
+  .container {
+    padding: 20px 15px 50px;
+  }
+
+  .hero {
+    min-height: 480px;
+    padding: 56px 25px 200px;
+    margin-bottom: 35px;
+    border-radius: 22px;
+  }
+
+  .hero::before {
+    top: 25px;
+    left: 25px;
+    font-size: 9px;
+  }
+
+  .hero::after {
+    width: 145px;
+    height: 145px;
+    top: auto;
+    bottom: 25px;
+    right: 12%;
+    font-size: 70px;
+  }
+
+  .hero h1 {
+    font-size: clamp(39px, 10vw, 53px);
+    letter-spacing: -1px;
+  }
+
+  .hero p {
+    font-size: 13px;
+  }
+
+  .filters {
+    grid-template-columns: 1fr;
+  }
+
+  .stall-grid {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .card-image {
+    height: 220px;
+  }
+
+  .panel {
+    margin: 20px auto;
+    padding: 27px 22px;
+  }
+
+  .panel h1 {
+    font-size: 35px;
+  }
+
+  .pagination {
+    gap: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+  }
+}
+
+
+/* ==========================================
+   FITUR TAMBAHAN KANTINREVIEW
+========================================== */
+
+.results-count {
+  margin: 0 0 24px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+
+.popular-label {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 7px 13px;
+  border: 1px solid #d9c5a5;
+  border-radius: 30px;
+  background: var(--butter);
+  color: var(--cocoa);
+  font-size: 10px;
+  font-weight: 800;
+  transform: rotate(-2deg);
+}
+
+.form-eyebrow {
+  display: inline-block;
+  color: var(--sage-dark);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.detail-illustration {
+  display: grid;
+  place-items: center;
+  height: 185px;
+  margin: 22px 0;
+  border: 1.5px solid var(--border);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 75% 25%, #f7e2c1, transparent 45%),
+    linear-gradient(135deg, var(--sage), var(--peach));
+  font-size: 85px;
+}
+
+.profile-avatar {
+  display: grid;
+  place-items: center;
+  width: 92px;
+  height: 92px;
+  margin: 25px 0;
+  border: 2px solid var(--cocoa);
+  border-radius: 50%;
+  background: var(--rose);
+  box-shadow: 5px 6px 0 var(--butter);
+  color: var(--cocoa);
+  font-family: 'DM Serif Display', serif;
+  font-size: 48px;
+}
+
+.form-panel form button:focus-visible,
+.nav-actions button:focus-visible,
+.card-actions button:focus-visible {
+  outline: 3px solid var(--sage-dark);
+  outline-offset: 3px;
+}
+
+@media (max-width: 640px) {
+  .detail-illustration {
+    height: 145px;
+    font-size: 65px;
+  }
+
+  .results-count {
+    margin-bottom: 18px;
+  }
+
+  .profile-avatar {
+    width: 75px;
+    height: 75px;
+    font-size: 38px;
+  }
+}
+
+
+/* =====================================
+   GAMBAR MAKANAN DARI PRAKTIKUM
+===================================== */
+
+.card-image {
+  position: relative;
+  overflow: hidden;
+  padding: 16px;
+}
+
+.food-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 8px 10px rgba(91, 64, 52, 0.12));
+}
+
+.stall-card:hover .food-image {
+  transform: scale(1.07) rotate(-2deg);
+}
+
+.image-caption {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 5px 9px;
+  border-radius: 20px;
+  background: rgba(255, 252, 246, 0.92);
+  color: #5b4034;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+/* Sembunyikan dekorasi emoji lama */
+.card-image::after {
+  display: none;
+}
+
+
+/* ==========================================
+   JAJAN.IN — BRANDING
+========================================== */
+
+.brand-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: -1.6px;
+  color: #5b4034;
+}
+
+.brand-dot {
+  color: #c78583;
+}
+
+.brand-logo {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.footer-brand {
+  margin: 0;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 31px;
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  color: #5b4034;
+}
+
+.footer-tagline {
+  margin: 10px 0 18px;
+  font-family: 'DM Serif Display', serif;
+  font-size: 17px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #806b61;
+}
+
+.footer-credit {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .4px;
+  color: #8b8076;
+}
+
+@media (max-width: 600px) {
+  .brand-name {
+    font-size: 24px;
+  }
+
+  .brand-logo {
+    width: 34px;
+    height: 34px;
+  }
+
+  .footer-brand {
+    font-size: 27px;
+  }
+}
+
+
+/* Filter kategori */
+.category-filter {
+  flex: 1;
+  min-width: 180px;
+}
+
+.category-filter select {
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid #d8c7b7;
+  border-radius: 14px;
+  background: #fffaf3;
+  color: #62473a;
+  font: inherit;
+  cursor: pointer;
+}
+
+.category-filter select:focus-visible {
+  outline: 2px solid #b88577;
+  outline-offset: 2px;
+}
+
+.category-filter select:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.filter-error {
+  display: block;
+  margin-top: 6px;
+  color: #a94e49;
+  font-size: 0.8rem;
+}
+
+
+/* ==================================
+   FORM VALIDATION — JAJAN.IN
+================================== */
+
+.field-error {
+  margin: 5px 0 12px;
+  color: #a94e49;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.form-panel input[aria-invalid="true"],
+.form-panel textarea[aria-invalid="true"] {
+  border-color: #c76f6b;
+  background-color: #fff4f2;
+}
+
+.form-panel input[aria-invalid="true"]:focus,
+.form-panel textarea[aria-invalid="true"]:focus {
+  outline: 2px solid #c76f6b;
+  outline-offset: 2px;
+}
+
+
+/* ======================================
+   FOOD PLACEHOLDER — JAJAN.IN
+====================================== */
+
+.food-placeholder {
+  width: 100%;
+  height: 100%;
+  min-height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 24px;
+  background:
+    radial-gradient(
+      circle at 78% 22%,
+      #f4ddd5 0 18%,
+      transparent 19%
+    ),
+    linear-gradient(135deg, #f4e8d8, #e2e9d8);
+  color: #64483b;
+  text-align: center;
+}
+
+.food-placeholder-emoji {
+  font-size: clamp(58px, 7vw, 90px);
+  line-height: 1.2;
+}
+
+.food-placeholder-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+
+/* ==========================================
+   OWNER DASHBOARD — JAJAN.IN
+========================================== */
+
+.owner-dashboard {
+  padding: 34px 0 70px;
+  color: #573c31;
+}
+
+.owner-dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.owner-eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #a97759;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.owner-dashboard-header h1 {
+  margin: 0 0 10px;
+  font-size: clamp(30px, 4vw, 46px);
+  line-height: 1.15;
+}
+
+.owner-dashboard-header p,
+.owner-section-heading p {
+  margin: 0;
+  color: #967e70;
+  line-height: 1.7;
+}
+
+.owner-create-button,
+.owner-empty-state button {
+  padding: 14px 22px;
+  border: 0;
+  border-radius: 30px;
+  background: #644537;
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.owner-dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 42px;
+}
+
+.owner-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+  border: 1px solid #e8d8c9;
+  border-radius: 22px;
+  background: #fffaf3;
+}
+
+.owner-stat-card span {
+  color: #9b8070;
+  font-size: 13px;
+}
+
+.owner-stat-card strong {
+  font-size: 38px;
+  line-height: 1.1;
+}
+
+.owner-stat-card .owner-stat-role {
+  font-size: 27px;
+}
+
+.owner-stat-card small {
+  color: #9b8070;
+}
+
+.owner-section-heading {
+  margin-bottom: 22px;
+}
+
+.owner-section-heading h2 {
+  margin-bottom: 8px;
+  font-size: 23px;
+}
+
+.owner-stall-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.owner-stall-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid #e7d7c8;
+  border-radius: 24px;
+  background: #fffaf4;
+  box-shadow: 5px 6px 0 #e8dcd1;
+}
+
+.owner-stall-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: #e5ebdd;
+  font-size: 32px;
+}
+
+.owner-stall-info {
+  flex: 1;
+}
+
+.owner-stall-category {
+  color: #9b735d;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.owner-stall-info h3 {
+  margin: 9px 0;
+  font-size: 23px;
+}
+
+.owner-stall-info p {
+  color: #927b6d;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.owner-stall-description {
+  min-height: 24px;
+}
+
+.owner-edit-button {
+  padding: 12px 18px;
+  border: 1px solid #644537;
+  border-radius: 30px;
+  background: #644537;
+  color: white;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.owner-create-button:hover,
+.owner-edit-button:hover,
+.owner-empty-state button:hover {
+  background: #815b48;
+}
+
+.owner-empty-state {
+  padding: 48px 20px;
+  border: 2px dashed #dfcbbb;
+  border-radius: 24px;
+  background: #fffaf4;
+  text-align: center;
+}
+
+.owner-empty-icon {
+  font-size: 58px;
+}
+
+.owner-empty-state h3 {
+  font-size: 23px;
+}
+
+.owner-empty-state p {
+  max-width: 400px;
+  margin: 12px auto 22px;
+  color: #927b6d;
+  line-height: 1.7;
+}
+
+.owner-back-button {
+  margin-top: 36px;
+  padding: 10px 0;
+  border: none;
+  background: transparent;
+  color: #644537;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 650px) {
+  .owner-dashboard-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .owner-dashboard-stats,
+  .owner-stall-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .owner-create-button {
+    width: 100%;
+  }
+}
+
+
+
+/* ==========================================
+   ADMIN DASHBOARD — JAJAN.IN
+========================================== */
+
+.admin-dashboard {
+  padding: 34px 0 70px;
+  color: #573c31;
+}
+
+.admin-dashboard-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.admin-eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #a97759;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.admin-dashboard-header h1 {
+  margin: 0 0 10px;
+  font-size: clamp(30px, 4vw, 46px);
+}
+
+.admin-dashboard-header p,
+.admin-section-heading p {
+  margin: 0;
+  color: #967e70;
+  line-height: 1.7;
+}
+
+.admin-create-button,
+.admin-empty-state button {
+  padding: 14px 22px;
+  border: 1px solid #644537;
+  border-radius: 30px;
+  background: #644537;
+  color: #fffaf4;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 38px;
+}
+
+.admin-stat-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 24px;
+  border: 1px solid #e8d8c9;
+  border-radius: 22px;
+  background: #fffaf3;
+}
+
+.admin-stat-card span,
+.admin-stat-card small {
+  color: #9b8070;
+  font-size: 13px;
+}
+
+.admin-stat-card strong {
+  font-size: 38px;
+  line-height: 1.1;
+}
+
+.admin-stat-card .admin-stat-role {
+  font-size: 27px;
+}
+
+.admin-section-heading {
+  margin-bottom: 20px;
+}
+
+.admin-section-heading h2 {
+  margin: 0 0 8px;
+  font-size: 23px;
+}
+
+.admin-search {
+  margin-bottom: 25px;
+}
+
+.admin-search input {
+  width: 100%;
+  padding: 16px 20px;
+  border: 1px solid #dfd4c8;
+  border-radius: 30px;
+  background: #fffaf4;
+  color: #573c31;
+}
+
+.admin-stall-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.admin-stall-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 24px;
+  border: 1px solid #e7d7c8;
+  border-radius: 24px;
+  background: #fffaf4;
+  box-shadow: 5px 6px 0 #e8dcd1;
+}
+
+.admin-stall-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  border-radius: 18px;
+  background: #e5ebdd;
+  font-size: 32px;
+}
+
+.admin-stall-info {
+  flex: 1;
+}
+
+.admin-stall-category {
+  color: #9b735d;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.admin-stall-info h3 {
+  margin: 9px 0;
+  font-size: 23px;
+}
+
+.admin-stall-info p {
+  color: #927b6d;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+.admin-stall-id {
+  display: inline-block;
+  margin-top: 8px;
+  color: #9b8070;
+  font-size: 11px;
+}
+
+.admin-stall-actions {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.admin-edit-button,
+.admin-delete-button {
+  flex: 1;
+  min-width: 100px;
+  padding: 12px;
+  border-radius: 30px;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.admin-edit-button {
+  border: 1px solid #644537;
+  background: #644537;
+  color: #fffaf4;
+}
+
+.admin-delete-button {
+  border: 1px solid #c58d8a;
+  background: #f9e8e6;
+  color: #985d5d;
+}
+
+.admin-empty-state {
+  padding: 48px 20px;
+  border: 2px dashed #dfcbbb;
+  border-radius: 24px;
+  background: #fffaf4;
+  text-align: center;
+}
+
+.admin-empty-icon {
+  font-size: 58px;
+}
+
+.admin-empty-state p {
+  color: #927b6d;
+  line-height: 1.7;
+}
+
+.admin-back-button {
+  margin-top: 36px;
+  padding: 10px 0;
+  border: none;
+  background: transparent;
+  color: #644537;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+@media (max-width: 650px) {
+  .admin-dashboard-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .admin-dashboard-stats,
+  .admin-stall-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-create-button {
+    width: 100%;
+  }
+}
