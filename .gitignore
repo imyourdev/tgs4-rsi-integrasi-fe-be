@@ -5,3 +5,5 @@ build/
 .env.*
 !.env.example
 *.log
+
+tugas paling fiks lanjutin sini/db/
